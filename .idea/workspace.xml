@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0a0bde4f-17d4-4089-bb9e-7371d196dea8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/conan.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mobility.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/squad_behaviour.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wireless_control.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/distance_estimation_test.py" afterPath="$PROJECT_DIR$/distance_estimation_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kalman_filter.py" afterPath="$PROJECT_DIR$/kalman_filter.py" />
-    </list>
+    <list default="true" id="0a0bde4f-17d4-4089-bb9e-7371d196dea8" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -394,6 +384,14 @@
       <option name="presentableId" value="Default" />
       <updated>1486342540674</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added Mobility, Squad Behaviour, and Wireless Control.&#10;Updated Readme.">
+      <created>1487747363866</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1487747363866</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -429,6 +427,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Mobility, Squad Behaviour, and Wireless Control.&#10;Updated Readme." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Mobility, Squad Behaviour, and Wireless Control.&#10;Updated Readme." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
