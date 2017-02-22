@@ -140,8 +140,6 @@ while 1:
     check_formation()
     if not in_formation:
         while not in_formation:
-            # If mac0, stay still.  If mac1, find mac0 then stay still.
-            # If mac2, wait for mac1, then find mac0/1 then stay still.
             form_up(mac)
         get_bearing(mac)
 
