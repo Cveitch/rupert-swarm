@@ -1,37 +1,26 @@
 # Conan Veitch, 2017
-# Code for Kalman filter is adapted from https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
+# Filters any incoming data.
+# Code for the one dimensional Kalman filter is adapted from
+# https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python.
 
 class KalmanFilter:
 
-    process_vari = 0
-    sensor_vari = 0
-    old_val = 0
+    def __init__(self, x0, P, R, Q):
+        self.x = x0  # Initializes RSSI.
+        self.P = P   # Initial RSSI Variance (eg 400=20^2, so 97% confident within 60)
+        self.R = R   # Sensor Variance - experimentally found
+        self.Q = Q   # RSSI Variance - experimentally found
 
-    def __init__(self, pro_var, sens_var, ol_val):
-        self.process_vari = pro_var
-        self.sensor_vari = sens_var
-        self.old_val = ol_val
+    def update(self, z):
+        self.x = (self.P * z + self.x * self.R) / (self.P + self.R)
+                     # Scales measurement and prior by weights: W1*mu2 + W2*mu2.
+                     # This is Kalman gain: W1 = K = (sigma2^2)/(sigma2^2+sigma1^2)
+        self.P = 1. / (1./self.P + 1./self.R)
+                     # The variance.  (PR)/P+R)
 
-    def gaussian_multiply(self, g1, g2): #Takes two Gaussians as argument
-        mu1, vari1 = g1
-        mu2, vari2 = g2
-        mean = (vari1 * mu2 + vari2 * mu1) / (vari1 + vari2)
-        variance = (vari1 * vari2) / (vari1 + vari2)
-        return (mean, variance)
+    def predict(self, u=0.0): # u is the movement expected.
+        self.x += u
+        self.P += self.Q
 
-    def update(self, prior, likelihood):
-        posterior = self.gaussian_multiply(likelihood, prior)
-        return posterior
 
-    def predict(self, posterior, process_model):
-        meanP = variP = posterior
-        meanPM = variPM = process_model
-        meanP = meanP + meanPM
-        variP = variP + variPM
-        return meanP, variP
-
-    def k_filter(self, input):
-        prior = self.predict(self.old_val, self.process_vari)
-        likelihood = (input, self.sensor_vari)
-        old_val = self.update(prior, likelihood)
-        return old_val
+# In order to use, initialize, predict, then update in order to filter values.
