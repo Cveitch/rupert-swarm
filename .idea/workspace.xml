@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0a0bde4f-17d4-4089-bb9e-7371d196dea8" name="Default" comment="" />
+    <list default="true" id="0a0bde4f-17d4-4089-bb9e-7371d196dea8" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/squad_control.py" afterPath="$PROJECT_DIR$/squad_control.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,8 +76,8 @@
       <file leaf-file-name="squad_control.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/squad_control.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="583">
-              <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+            <state relative-caret-position="457">
+              <caret line="100" column="70" selection-start-line="100" selection-start-column="70" selection-end-line="100" selection-end-column="70" />
               <folding>
                 <element signature="e#541#567#0" expanded="true" />
               </folding>
@@ -484,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487832566457</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Commented out squad_behaviour.  It is now deprecated.&#10;Use squad_control for movement scripts.">
+      <created>1487832572493</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1487832572493</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -920,8 +930,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/squad_control.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+        <state relative-caret-position="457">
+          <caret line="100" column="70" selection-start-line="100" selection-start-column="70" selection-end-line="100" selection-end-column="70" />
           <folding>
             <element signature="e#541#567#0" expanded="true" />
           </folding>

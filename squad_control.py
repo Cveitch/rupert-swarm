@@ -98,7 +98,13 @@ time.sleep(2)
 while 1:
     check_distance()
     if in_formation:
-        drive(forw, 0.5)
+        # NOTE: THIS IS TEMPORARY.  WHEN IR SENSORS WORK, REMOVE THIS.
+        if not is_leader && dist_b < d - d_error:
+            if mac == 1:
+                turn(left, fortyfive)
+            if mac == 2:
+                turn(right, fortyfive)
+        drive(forw, 0.25)
     elif not in_formation:
         while not in_formation:
             form_up()
