@@ -99,7 +99,7 @@ while 1:
     check_distance()
     if in_formation:
         # NOTE: THIS IS TEMPORARY.  WHEN IR SENSORS WORK, REMOVE THIS.
-        if not is_leader && dist_b < d - d_error:
+        if not is_leader and dist_b < d - d_error:
             if mac == 1:
                 turn(left, fortyfive)
             if mac == 2:

@@ -494,7 +494,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487832572493</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fixed squad-control.">
+      <created>1487833793563</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1487833793563</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -534,7 +541,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Mobility, Squad Behaviour, and Wireless Control.&#10;Updated Readme." />
     <MESSAGE value="Commented out squad_behaviour.  It is now deprecated.&#10;Use squad_control for movement scripts." />
-    <option name="LAST_COMMIT_MESSAGE" value="Commented out squad_behaviour.  It is now deprecated.&#10;Use squad_control for movement scripts." />
+    <MESSAGE value="Fixed squad-control." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed squad-control." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
