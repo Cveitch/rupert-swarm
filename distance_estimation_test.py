@@ -1,3 +1,6 @@
+# This class is exclusively for testing purposes.
+
+
 import csv
 from kalman_filter import KalmanFilter
 
