@@ -76,8 +76,8 @@
       <file leaf-file-name="squad_control.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/squad_control.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="457">
-              <caret line="100" column="70" selection-start-line="100" selection-start-column="70" selection-end-line="100" selection-end-column="70" />
+            <state relative-caret-position="360">
+              <caret line="44" column="22" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
               <folding>
                 <element signature="e#541#567#0" expanded="true" />
               </folding>
@@ -501,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487833793563</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fixed squad-control.">
+      <created>1487833863234</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1487833863234</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -938,8 +945,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/squad_control.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="457">
-          <caret line="100" column="70" selection-start-line="100" selection-start-column="70" selection-end-line="100" selection-end-column="70" />
+        <state relative-caret-position="360">
+          <caret line="44" column="22" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
           <folding>
             <element signature="e#541#567#0" expanded="true" />
           </folding>

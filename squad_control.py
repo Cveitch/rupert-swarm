@@ -38,9 +38,11 @@ def check_distance():
     global in_formation
     # Leader checks if it is out of range of both Ruperts.
     if is_leader and (dist_a > d + d_error or dist_b > d + d_error):
+        drive(stop, 0)
         in_formation = False
     # Other ruperts check to see if they are out of range of leader.
-    elif not is_leader and (dist_a > d + d_error):
+    elif not is_leader and (dist_a > d + d_error or dist_a < d - d_error):
+        drive(stop, 0)
         in_formation = False
 
 def form_up():
