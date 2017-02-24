@@ -22,8 +22,8 @@ from mobility import Bearing
 from wireless_control import broadcast
 from wireless_control import receive
 from wireless_control import get_mac
+#from threading import thread
 import time
-import _thread
 
 forw = Direction.FORWARD
 back = Direction.BACKWARD
@@ -32,6 +32,51 @@ left = Direction.LEFT
 stop = Direction.STOP
 fortyfive = Bearing.FORTY_FIVE
 ninety = Bearing.NINETY
+
+# Rupert specific variables
+is_leader = False
+in_formation = True
+mac = 100
+d = 0
+d_error = 0
+dist_a = 0      # distance from squad member 1/squad leader
+dist_b = 0      # distance from squad member 2
+
+
+def main():
+    # Run Squad Behaviour functions.
+    time.sleep(2)
+    initialize_rupert(50, 10)
+    # _thread.start_new_thread(receive)
+    # _thread.start_new_thread(broadcast(1))
+    # This sleep allows some rssi data to build up in the Kalman filter.
+    time.sleep(2)
+    while 1:
+        check_distance()
+        if in_formation:
+            # NOTE: THIS IS TEMPORARY.  WHEN IR SENSORS WORK, REMOVE THIS.
+            if not is_leader and dist_b < d - d_error:
+                if mac == 1:
+                    turn(left, fortyfive)
+                if mac == 2:
+                    turn(right, fortyfive)
+            drive(forw, 0.25)
+        elif not in_formation:
+            while not in_formation:
+                form_up()
+            get_bearing()
+
+
+def initialize_rupert(dist, dist_err):
+    global is_leader, mac, d, d_error
+    # Get our mac address, and check if we are the leader.
+    mac = get_mac()
+    if mac == 0:
+        is_leader = True
+    # Distance in cm we require between Ruperts for the formation.
+    d = dist
+    # error margin for distance
+    d_error = dist_err
 
 
 def check_distance():
@@ -45,12 +90,11 @@ def check_distance():
         drive(stop, 0)
         in_formation = False
 
+
 def form_up():
     # If out of formation, this is how we get back.
     # Actions depend on mac address of the Rupert.
-    global dist_a
-    global dist_b
-    global in_formation
+    global dist_a,dist_b, in_formation
     # Leader doesn't move, it's at the top of the triangle.
     if is_leader:
         drive(stop, 0)
@@ -60,6 +104,7 @@ def form_up():
                 or dist_b < d - d_error - d_error:
             turn(right, fortyfive)
             drive(forw, 0.25)
+
 
 def get_bearing():
     global dist_a
@@ -74,42 +119,6 @@ def get_bearing():
             turn(right, ninety)
 
 
-# Run Squad Behaviour functions.
-time.sleep(2)
 
-# Initialize leader, and formation.  We assume we begin in formation.
-is_leader = False
-in_formation = True
-# Get our mac address, and check if we are the leader.
-mac = get_mac()
-if mac == 0:
-    is_leader = True
-# Distance in cm we require between Ruperts for the formation.
-d = 50
-# error margin for distance
-d_error = 10
-# dist_a is the squad leader if this Rupert is not.
-dist_a = 0      # distance from squad member 1
-dist_b = 0      # distance from squad member 2
-
-_thread.start_new_thread(receive)
-_thread.start_new_thread(broadcast(1))
-
-time.sleep(2)
-
-while 1:
-    check_distance()
-    if in_formation:
-        # NOTE: THIS IS TEMPORARY.  WHEN IR SENSORS WORK, REMOVE THIS.
-        if not is_leader and dist_b < d - d_error:
-            if mac == 1:
-                turn(left, fortyfive)
-            if mac == 2:
-                turn(right, fortyfive)
-        drive(forw, 0.25)
-    elif not in_formation:
-        while not in_formation:
-            form_up()
-        get_bearing()
 
 
