@@ -12,11 +12,11 @@ class KalmanFilter:
         self.Q = Q   # RSSI Variance - experimentally found
 
     def update(self, z):
+        # Scales measurement and prior by weights: W1*mu2 + W2*mu2.
+        # This is Kalman gain: W1 = K = (sigma2^2)/(sigma2^2+sigma1^2)
         self.x = (self.P * z + self.x * self.R) / (self.P + self.R)
-                     # Scales measurement and prior by weights: W1*mu2 + W2*mu2.
-                     # This is Kalman gain: W1 = K = (sigma2^2)/(sigma2^2+sigma1^2)
+        # The variance.  (PR)/P+R)
         self.P = 1. / (1./self.P + 1./self.R)
-                     # The variance.  (PR)/P+R)
 
     def predict(self, u=0.0): # u is the movement expected.
         self.x += u

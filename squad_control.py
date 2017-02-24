@@ -20,12 +20,13 @@ from mobility import turn
 from mobility import Direction
 from mobility import Bearing
 from wireless_control import broadcast
-from wireless_control import receive
+from wireless_control import receive_rssi
 from wireless_control import get_mac
 from threading import Thread
 from kalman_filter import KalmanFilter
 import time
 
+# Enum variables
 forw = Direction.FORWARD
 back = Direction.BACKWARD
 right = Direction.RIGHT
@@ -36,15 +37,16 @@ ninety = Bearing.NINETY
 
 # Rupert specific variables
 is_leader = False
-in_formation = True
-mac = 100
-d = 0
-d_error = 0
-dist_a = 0      # distance from squad member 1/squad leader
-dist_b = 0      # distance from squad member 2
-
-k_filter_a = None
-k_filter_b = None
+in_formation = None
+mac = None
+d = None
+d_error = None
+dist_a = None          # distance from squad member 1/squad leader
+dist_a_array = [None] * 2
+dist_b = None          # distance from squad member 2
+dist_b_array = [None] * 2
+k_filter_a = None   # Filter for distance a
+k_filter_b = None   # filter for distance b
 
 
 def main():
@@ -57,7 +59,7 @@ def main():
         check_distance()
         if in_formation:
             # NOTE: THIS IS TEMPORARY.  WHEN IR SENSORS WORK, REMOVE THIS.
-            if not is_leader and dist_b < d - d_error:
+            if not dist_b < d - d_error:
                 if mac == 1:
                     turn(left, fortyfive)
                 if mac == 2:
@@ -70,7 +72,9 @@ def main():
 
 
 def initialize_rupert(dist, dist_err, init_rssi, init_var, sens_var, rssi_var):
-    global is_leader, mac, d, d_error, k_filter_a, k_filter_b
+    global is_leader, in_formation, mac, d, d_error, k_filter_a, k_filter_b
+    # Ruperts may assume they begin in formation
+    in_formation = True
     # Get our mac address, and check if we are the leader.
     mac = get_mac()
     if mac == 0:
@@ -82,9 +86,21 @@ def initialize_rupert(dist, dist_err, init_rssi, init_var, sens_var, rssi_var):
     # Initialize our Kalman Filters
     k_filter_a = KalmanFilter(init_rssi, init_var, sens_var, rssi_var)
     k_filter_b = KalmanFilter(init_rssi, init_var, sens_var, rssi_var)
-    # Begin broadcast and receive threads
-    # _thread.start_new_thread(receive)
+
+    # Begin broadcasting data and receiving distances
+    Thread(target=broadcast, args=5)
+    Thread(target=receive_rssi, args=())
     # _thread.start_new_thread(broadcast(1))
+
+    # THESE VALUES ARE DUMMY VALUES FOR TESTING WITHOUT ACTUAL RSSI VALUES
+    global dist_a, dist_b
+    dist_a = 5
+    dist_b = 5
+
+
+def receive_distances():
+    received_tuple = receive_rssi()
+
 
 
 def check_distance():
@@ -120,13 +136,12 @@ def get_bearing():
     while not correct_bearing:
         last_d = dist_a
         drive(forw, 0.75)
-        time.sleep(0.25)
         if last_d < dist_a:
             correct_bearing = True
         else:
             turn(right, ninety)
 
 
-
+main()
 
 

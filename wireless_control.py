@@ -9,11 +9,14 @@ def broadcast(message):
     # Broadcast some message over feather every 200ms.
     1+1
 
-def receive_RSSI():
+
+def receive_rssi():
     # receive broadcast from another feather.
+    mac_address = 0
     rssi_received = 20
-    return rssi_received
+    return mac_address, rssi_received
+
 
 def get_mac():
-    # Return Rupert's MAC address.
+    # Return this Rupert's MAC address.
     return 0

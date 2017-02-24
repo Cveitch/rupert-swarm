@@ -4,6 +4,7 @@
 # All values are experimental.
 
 from enum import Enum
+from time import sleep
 
 class Direction(Enum):
     RIGHT = "right"
@@ -29,6 +30,7 @@ def drive(direction, n):
         1+1 # Send command to Feather to drive backward n seconds.
     elif direction == Direction.STOP:
         1+1 # Send command to Feather to stop moving.
+    sleep(n)
 
 def turn(direction, bearing):
     # Check for direction argument
@@ -42,3 +44,4 @@ def turn(direction, bearing):
         1 + 1 # Send command to Feather to turn right at an angle of bearing.
     elif direction == Direction.LEFT:
         1 + 1 # Send command to Feather to turn right at an angle of bearing.
+    sleep(bearing.value)
