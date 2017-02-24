@@ -42,4 +42,3 @@ def turn(direction, bearing):
         1 + 1 # Send command to Feather to turn right at an angle of bearing.
     elif direction == Direction.LEFT:
         1 + 1 # Send command to Feather to turn right at an angle of bearing.
-

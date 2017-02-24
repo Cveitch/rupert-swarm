@@ -5,7 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mobility.py" afterPath="$PROJECT_DIR$/mobility.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/squad_control.py" afterPath="$PROJECT_DIR$/squad_control.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wireless_control.py" afterPath="$PROJECT_DIR$/wireless_control.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,8 +35,8 @@
       <file leaf-file-name="distance_estimation_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/distance_estimation_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="49" selection-start-line="0" selection-start-column="49" selection-end-line="0" selection-end-column="49" />
+            <state relative-caret-position="486">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="e#52#62#0" expanded="true" />
               </folding>
@@ -48,8 +47,8 @@
       <file leaf-file-name="mobility.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mobility.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="792">
+              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -58,8 +57,8 @@
       <file leaf-file-name="wireless_control.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wireless_control.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+            <state relative-caret-position="252">
+              <caret line="14" column="24" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -78,8 +77,8 @@
       <file leaf-file-name="squad_control.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/squad_control.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+            <state relative-caret-position="432">
+              <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding>
                 <element signature="e#541#567#0" expanded="true" />
               </folding>
@@ -121,8 +120,8 @@
         <option value="$PROJECT_DIR$/distance_estimation_test.py" />
         <option value="$PROJECT_DIR$/squad_behaviour.py" />
         <option value="$PROJECT_DIR$/dep_squad_behaviour.py" />
-        <option value="$PROJECT_DIR$/mobility.py" />
         <option value="$PROJECT_DIR$/wireless_control.py" />
+        <option value="$PROJECT_DIR$/mobility.py" />
         <option value="$PROJECT_DIR$/squad_control.py" />
       </list>
     </option>
@@ -517,7 +516,14 @@
       <option name="project" value="LOCAL" />
       <updated>1487834883692</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Cleaned up Squad control - added initialize_rupert/main">
+      <created>1487894800254</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1487894800254</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -559,7 +565,8 @@
     <MESSAGE value="Added Mobility, Squad Behaviour, and Wireless Control.&#10;Updated Readme." />
     <MESSAGE value="Commented out squad_behaviour.  It is now deprecated.&#10;Use squad_control for movement scripts." />
     <MESSAGE value="Fixed squad-control." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed squad-control." />
+    <MESSAGE value="Cleaned up Squad control - added initialize_rupert/main" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up Squad control - added initialize_rupert/main" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -949,21 +956,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kalman_filter.py">
+    <entry file="file://$PROJECT_DIR$/mobility.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="792">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/distance_estimation_test.py">
+    <entry file="file://$PROJECT_DIR$/wireless_control.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="49" selection-start-line="0" selection-start-column="49" selection-end-line="0" selection-end-column="49" />
-          <folding>
-            <element signature="e#52#62#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="252">
+          <caret line="14" column="24" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dep_squad_behaviour.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -984,34 +997,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mobility.py">
+    <entry file="file://$PROJECT_DIR$/distance_estimation_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="486">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="e#52#62#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wireless_control.py">
+    <entry file="file://$PROJECT_DIR$/kalman_filter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dep_squad_behaviour.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+        <state relative-caret-position="468">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/squad_control.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+        <state relative-caret-position="432">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding>
             <element signature="e#541#567#0" expanded="true" />
           </folding>

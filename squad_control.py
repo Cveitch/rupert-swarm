@@ -22,7 +22,8 @@ from mobility import Bearing
 from wireless_control import broadcast
 from wireless_control import receive
 from wireless_control import get_mac
-#from threading import thread
+from threading import Thread
+from kalman_filter import KalmanFilter
 import time
 
 forw = Direction.FORWARD
@@ -42,15 +43,16 @@ d_error = 0
 dist_a = 0      # distance from squad member 1/squad leader
 dist_b = 0      # distance from squad member 2
 
+k_filter_a = None
+k_filter_b = None
+
 
 def main():
     # Run Squad Behaviour functions.
-    time.sleep(2)
-    initialize_rupert(50, 10)
-    # _thread.start_new_thread(receive)
-    # _thread.start_new_thread(broadcast(1))
+    time.sleep(1)
+    initialize_rupert(50, 10, 0, 900, 5, 10)
     # This sleep allows some rssi data to build up in the Kalman filter.
-    time.sleep(2)
+    time.sleep(3)
     while 1:
         check_distance()
         if in_formation:
@@ -67,8 +69,8 @@ def main():
             get_bearing()
 
 
-def initialize_rupert(dist, dist_err):
-    global is_leader, mac, d, d_error
+def initialize_rupert(dist, dist_err, init_rssi, init_var, sens_var, rssi_var):
+    global is_leader, mac, d, d_error, k_filter_a, k_filter_b
     # Get our mac address, and check if we are the leader.
     mac = get_mac()
     if mac == 0:
@@ -77,6 +79,12 @@ def initialize_rupert(dist, dist_err):
     d = dist
     # error margin for distance
     d_error = dist_err
+    # Initialize our Kalman Filters
+    k_filter_a = KalmanFilter(init_rssi, init_var, sens_var, rssi_var)
+    k_filter_b = KalmanFilter(init_rssi, init_var, sens_var, rssi_var)
+    # Begin broadcast and receive threads
+    # _thread.start_new_thread(receive)
+    # _thread.start_new_thread(broadcast(1))
 
 
 def check_distance():
