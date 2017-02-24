@@ -23,6 +23,7 @@ from wireless_control import broadcast
 from wireless_control import receive_rssi
 from wireless_control import get_mac
 from threading import Thread
+from threading import RLock
 from kalman_filter import KalmanFilter
 import time
 
@@ -35,18 +36,14 @@ stop = Direction.STOP
 fortyfive = Bearing.FORTY_FIVE
 ninety = Bearing.NINETY
 
+lock = RLock()
+
 # Rupert specific variables
 is_leader = False
 in_formation = None
 mac = None
 d = None
 d_error = None
-dist_a = None          # distance from squad member 1/squad leader
-dist_a_array = [None] * 2
-dist_b = None          # distance from squad member 2
-dist_b_array = [None] * 2
-k_filter_a = None   # Filter for distance a
-k_filter_b = None   # filter for distance b
 
 
 def main():
@@ -98,9 +95,25 @@ def initialize_rupert(dist, dist_err, init_rssi, init_var, sens_var, rssi_var):
     dist_b = 5
 
 
-def receive_distances():
-    received_tuple = receive_rssi()
+k_filter_a = None   # Filter for distance a
+k_filter_b = None   # filter for distance b
+leader_mac = 0
+dist_a = None       # distance from squad member 1/squad leader
+dist_b = None       # distance from squad member 2
+rssi_values = {}
 
+
+def receive_distances():
+    global dist_a, dist_b, k_filter_a, k_filter_b
+    # get a (mac address, rssi value) tuple from another feather.
+    rssi_tuple = receive_rssi()
+    lock.acquire()
+    # matches node a with mac 0, if this Rupert isn't squad leader.
+    # if rssi_tuple[0] not in rssi_values:
+    #     if rssi_tuple[0] == 0:
+    #         leader
+    rssi_values[rssi_tuple[0]] = rssi_tuple[1]
+    
 
 
 def check_distance():

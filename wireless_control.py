@@ -11,7 +11,7 @@ def broadcast(message):
 
 
 def receive_rssi():
-    # receive broadcast from another feather.
+    # waits for broadcast from another feather
     mac_address = 0
     rssi_received = 20
     return mac_address, rssi_received
