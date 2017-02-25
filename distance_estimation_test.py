@@ -5,14 +5,14 @@ import csv
 from kalman_filter import KalmanFilter
 from threading import RLock
 
-# file_name1 = '/home/conan/PycharmProjects/rupert-swarm/assets/testcsv.csv'
+file_name1 = '/home/conan/PycharmProjects/rupert-swarm/assets/testcsv.csv'
 # file_name2 = '/home/conan/PycharmProjects/rupert-swarm/assets/test2.csv' #Linear Movement Test
 # file_name3 = '/home/conan/PycharmProjects/rupert-swarm/assets/test3.csv' #Back and forth test
 # file_name4 = '/home/conan/PycharmProjects/rupert-swarm/assets/test4.csv' #Move stop move test
 #
-# with open(file_name1, newline = '') as input_file:
-#     input_reader=csv.reader(input_file)
-#     RSSI_input = [int(val) for x in list(input_reader) for val in x]
+with open(file_name1, newline = '') as input_file:
+    input_reader=csv.reader(input_file)
+    RSSI_input = [int(val) for x in list(input_reader) for val in x]
 #
 # with open(file_name2, newline = '') as input_file:
 #     input_reader=csv.reader(input_file)
@@ -56,18 +56,14 @@ def receive_rssi():
 
 
 lock = RLock()
-rssi_values = {}
+mac_filt = {}
 
+mac_filt[0] = KalmanFilter(0, 900, 5, 10)
 
-def receive_distances():
-    rssi_tuple = receive_rssi()
-    rssi_values[rssi_tuple[0]] = rssi_tuple[1]
-    if 0 not in rssi_values:
-        print(rssi_values[0])
-
-receive_distances()
-
-
+for a in RSSI_input:
+    mac_filt[0].predict()
+    mac_filt[0].update(a)
+    print(mac_filt[0].x)
 
 
 

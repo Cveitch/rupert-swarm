@@ -25,7 +25,8 @@ from wireless_control import get_mac
 from threading import Thread
 from threading import RLock
 from kalman_filter import KalmanFilter
-import time
+from time import sleep
+import math
 
 # Enum variables
 forw = Direction.FORWARD
@@ -38,20 +39,13 @@ ninety = Bearing.NINETY
 
 lock = RLock()
 
-# Rupert specific variables
-is_leader = False
-in_formation = None
-mac = None
-d = None
-d_error = None
-
 
 def main():
     # Run Squad Behaviour functions.
-    time.sleep(1)
-    initialize_rupert(50, 10, 0, 900, 5, 10)
+    sleep(1)
+    initialize_rupert(50, 10, 0, 900, 5, 10, 50, 50, 100, 56)
     # This sleep allows some rssi data to build up in the Kalman filter.
-    time.sleep(3)
+    sleep(3)
     while 1:
         check_distance()
         if in_formation:
@@ -68,25 +62,27 @@ def main():
             get_bearing()
 
 
-def initialize_rupert(dist, dist_err, init_rssi, init_var, sens_var, rssi_var):
-    global is_leader, in_formation, mac, d, d_error, k_filter_a, k_filter_b
-    # Ruperts may assume they begin in formation
-    in_formation = True
-    # Get our mac address, and check if we are the leader.
-    mac = get_mac()
-    if mac == 0:
+def initialize_rupert(dist, dist_err, x0, p, r, q, dc, rdc, d0, rd0):
+    global is_leader, in_formation, mac, d, d_error, init_rss, init_var, \
+        sens_var,rssi_var, cal_dist, rssi_cal, ref_dist, rssi_ref
+    in_formation = True     # Ruperts may assume they begin in formation
+    mac = get_mac()         # Get our mac address, and check if we are the leader.
+    if mac == 0:            # Set if this Rupert is the squad leader
         is_leader = True
-    # Distance in cm we require between Ruperts for the formation.
-    d = dist
-    # error margin for distance
-    d_error = dist_err
-    # Initialize our Kalman Filters
-    k_filter_a = KalmanFilter(init_rssi, init_var, sens_var, rssi_var)
-    k_filter_b = KalmanFilter(init_rssi, init_var, sens_var, rssi_var)
+    d = dist                # Initialize distance between Ruperts
+    d_error = dist_err      # initialize distance error tolerance
+    init_rss = x0           # Initialize Kalman Filter parameters
+    init_var = p            # Initialize Kalman Filter parameters
+    sens_var = r            # Initialize Kalman Filter parameters
+    rssi_var = q            # Initialize Kalman Filter parameters
+    cal_dist = dc           # Initialize RSSI-to-distance parameters
+    rssi_cal = rdc          # Initialize RSSI-to-distance parameters
+    ref_dist = d0           # Initialize RSSI-to-distance parameters
+    rssi_ref = rd0          # Initialize RSSI-to-distance parameters
 
     # Begin broadcasting data and receiving distances
-    Thread(target=broadcast, args=5)
-    Thread(target=receive_rssi, args=())
+    # Thread(target=broadcast, args=5)
+    # Thread(target=receive_rssi, args=())
     # _thread.start_new_thread(broadcast(1))
 
     # THESE VALUES ARE DUMMY VALUES FOR TESTING WITHOUT ACTUAL RSSI VALUES
@@ -95,25 +91,57 @@ def initialize_rupert(dist, dist_err, init_rssi, init_var, sens_var, rssi_var):
     dist_b = 5
 
 
-k_filter_a = None   # Filter for distance a
-k_filter_b = None   # filter for distance b
-leader_mac = 0
+# Rupert specific variables
+is_leader = False
+in_formation = None
+mac = None
+d = None            # Desired distances between Ruperts
+d_error = None      # Error tolerance for distance between Ruperts
 dist_a = None       # distance from squad member 1/squad leader
 dist_b = None       # distance from squad member 2
-rssi_values = {}
+
+init_rss = None     # Kalman Filter initial rssi value
+init_var = None     # Kalman Filter initial variance
+sens_var = None     # Kalman Filter sensor variance
+rssi_var = None     # Kalman Filter system variance
+
+cal_dist = None     # RSSI to distance calibration distance
+rssi_cal = None     # RSSI to distance calibration RSSI
+ref_dist = None     # RSSI to distance reference distance
+rssi_ref = None     # RSSI to distance reference RSSI
+
+mac_rssi = {}       # keeps mac address rssi pairings
+mac_filt = {}       # keeps mac address Kalman filter pairings
+mac_dist = {}       # keeps mac address distance pairings
 
 
 def receive_distances():
-    global dist_a, dist_b, k_filter_a, k_filter_b
-    # get a (mac address, rssi value) tuple from another feather.
+    global rssi_a, rssi_b, dist_a, dist_b
+    # get a (mac address, rssi value) tuple from another feather, extract
     rssi_tuple = receive_rssi()
+    rec_mac = rssi_tuple[0]
+    rec_rssi = rssi_tuple[1]
     lock.acquire()
-    # matches node a with mac 0, if this Rupert isn't squad leader.
-    # if rssi_tuple[0] not in rssi_values:
-    #     if rssi_tuple[0] == 0:
-    #         leader
-    rssi_values[rssi_tuple[0]] = rssi_tuple[1]
-    
+    if rec_mac in mac_rssi:  # get mac-rssi key pairs, put them in mac_rssi.
+        mac_rssi[rec_mac] = rec_rssi
+    else:        # Key a Kalman filter and an rssi tuple to the mac address.
+        mac_rssi[rec_mac] = rec_rssi
+        mac_filt[rec_mac] = KalmanFilter(init_rss, init_var, sens_var, rssi_var)
+    mac_filt[rec_mac].predict()
+    mac_filt[rec_mac].update(rec_rssi)
+    f_rssi = mac_filt[rec_mac].x
+    mac_dist[rec_mac] = rssi_to_distance(cal_dist, rssi_cal, ref_dist, rssi_ref, f_rssi)
+
+    # This is ugly code that I hate, but I'll figure out a better way later:
+    if is_leader and rec_mac == 1:
+        dist_a = mac_dist[rec_mac]
+    elif is_leader and rec_mac == 2:
+        dist_b = mac_dist[rec_mac]
+    elif (not is_leader) and rec_mac == 0:
+        dist_a = mac_dist[rec_mac]
+    else:
+        dist_b = mac_dist[rec_mac]
+
 
 
 def check_distance():
@@ -132,11 +160,10 @@ def form_up():
     # If out of formation, this is how we get back.
     # Actions depend on mac address of the Rupert.
     global dist_a,dist_b, in_formation
-    # Leader doesn't move, it's at the top of the triangle.
-    if is_leader:
+    if is_leader:   # Leader doesn't move, it's at the top of the triangle.
         drive(stop, 0)
-    # Otherwise, other Ruperts get in range of the leader
-    else:
+
+    else:           # Otherwise, other Ruperts get in range of the leader
         if dist_a > d + d_error or dist_a < d - d_error \
                 or dist_b < d - d_error - d_error:
             turn(right, fortyfive)
@@ -149,10 +176,17 @@ def get_bearing():
     while not correct_bearing:
         last_d = dist_a
         drive(forw, 0.75)
+        sleep(0.25)
         if last_d < dist_a:
             correct_bearing = True
         else:
             turn(right, ninety)
+
+
+def rssi_to_distance(dc, rdc, d0, rd0, rssi):
+    nu = (rdc - rd0) / (10 * math.log((dc/d0)), 10)     # Path loss Constant
+    distance = ref_dist * math.pow(10, (rssi - rssi_ref) / (10 * nu))
+    return distance
 
 
 main()

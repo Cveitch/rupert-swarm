@@ -32,6 +32,7 @@ def drive(direction, n):
         1+1 # Send command to Feather to stop moving.
     sleep(n)
 
+
 def turn(direction, bearing):
     # Check for direction argument
     if not isinstance(direction, Direction):
