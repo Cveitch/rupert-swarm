@@ -139,6 +139,7 @@ def receive_distances():
         dist_a = mac_dist[rec_mac]
     else:
         dist_b = mac_dist[rec_mac]
+    lock.release()
 
 
 
