@@ -39,6 +39,29 @@ ninety = Bearing.NINETY
 
 lock = RLock()
 
+# Rupert specific variables
+is_leader = False
+in_formation = None
+mac = None
+d = None            # Desired distances between Ruperts
+d_error = None      # Error tolerance for distance between Ruperts
+dist_a = None       # distance from squad member 1/squad leader
+dist_b = None       # distance from squad member 2
+
+init_rss = None     # Kalman Filter initial rssi value
+init_var = None     # Kalman Filter initial variance
+sens_var = None     # Kalman Filter sensor variance
+rssi_var = None     # Kalman Filter system variance
+
+cal_dist = None     # RSSI to distance calibration distance
+rssi_cal = None     # RSSI to distance calibration RSSI
+ref_dist = None     # RSSI to distance reference distance
+rssi_ref = None     # RSSI to distance reference RSSI
+
+mac_rssi = {}       # keeps mac address rssi pairings
+mac_filt = {}       # keeps mac address Kalman filter pairings
+mac_dist = {}       # keeps mac address distance pairings
+
 
 def main():
     # Run Squad Behaviour functions.
@@ -81,9 +104,8 @@ def initialize_rupert(dist, dist_err, x0, p, r, q, dc, rdc, d0, rd0):
     rssi_ref = rd0          # Initialize RSSI-to-distance parameters
 
     # Begin broadcasting data and receiving distances
-    # Thread(target=broadcast, args=5)
-    # Thread(target=receive_rssi, args=())
-    # _thread.start_new_thread(broadcast(1))
+    Thread(target=broadcast, args=5)
+    Thread(target=receive_distances())
 
     # THESE VALUES ARE DUMMY VALUES FOR TESTING WITHOUT ACTUAL RSSI VALUES
     global dist_a, dist_b
@@ -91,32 +113,8 @@ def initialize_rupert(dist, dist_err, x0, p, r, q, dc, rdc, d0, rd0):
     dist_b = 5
 
 
-# Rupert specific variables
-is_leader = False
-in_formation = None
-mac = None
-d = None            # Desired distances between Ruperts
-d_error = None      # Error tolerance for distance between Ruperts
-dist_a = None       # distance from squad member 1/squad leader
-dist_b = None       # distance from squad member 2
-
-init_rss = None     # Kalman Filter initial rssi value
-init_var = None     # Kalman Filter initial variance
-sens_var = None     # Kalman Filter sensor variance
-rssi_var = None     # Kalman Filter system variance
-
-cal_dist = None     # RSSI to distance calibration distance
-rssi_cal = None     # RSSI to distance calibration RSSI
-ref_dist = None     # RSSI to distance reference distance
-rssi_ref = None     # RSSI to distance reference RSSI
-
-mac_rssi = {}       # keeps mac address rssi pairings
-mac_filt = {}       # keeps mac address Kalman filter pairings
-mac_dist = {}       # keeps mac address distance pairings
-
-
 def receive_distances():
-    global rssi_a, rssi_b, dist_a, dist_b
+    global dist_a, dist_b
     # get a (mac address, rssi value) tuple from another feather, extract
     rssi_tuple = receive_rssi()
     rec_mac = rssi_tuple[0]
@@ -184,7 +182,7 @@ def get_bearing():
 
 
 def rssi_to_distance(dc, rdc, d0, rd0, rssi):
-    nu = (rdc - rd0) / (10 * math.log((dc/d0)), 10)     # Path loss Constant
+    nu = (rdc - rd0) / (10 * float((math.log((dc / d0), 10))))     # Path loss Constant
     distance = ref_dist * math.pow(10, (rssi - rssi_ref) / (10 * nu))
     return distance
 

@@ -59,11 +59,11 @@ lock = RLock()
 mac_filt = {}
 
 mac_filt[0] = KalmanFilter(0, 900, 5, 10)
-
+import math
 for a in RSSI_input:
     mac_filt[0].predict()
     mac_filt[0].update(a)
-    print(mac_filt[0].x)
+print(math.log(500, 10))
 
 
 
