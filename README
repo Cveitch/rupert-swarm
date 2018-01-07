@@ -1,6 +1,11 @@
 Conan Veitch, 2017
 
 
+EDIT:
+This is deprecated code.  I'm no longer using the Raspberry Pi/Adafruit Feather to control the robots.  I've moved back to the Atmel SAM4S.
+The RPERT repository is the current, up to date codebase.  That said, this code all still works.
+
+
 ROADMAP:
 All upper(formation control, filtering, etc) and lower(hardware drivers) functions of the Ruperts are written in Python, intended to be ran on the Raspberry Pi Zero on the version of Raspbian supplied.  Feather Code must be loaded into the Feather M0.  Further information can be found in the Documentation.txt file.
 
