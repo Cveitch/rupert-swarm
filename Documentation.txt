@@ -1,0 +1,102 @@
+The bridge is a software bridge between the Pi Zero and the Feather M0 RFM69. The Pi Zero side is written in python, while the 
+Feather M0 side is written in Arduino C.
+
+
+Hardware:
+
+	-Adafruit Feather M0 RFM69HCW Packet Radio - 868 or 915 MHz (https://www.adafruit.com/products/3176)
+	-Raspbery PI Zero v1.3 (https://www.adafruit.com/products/2885)
+		
+Hardware setup:
+
+	-Wire Feather's M0 Tx and RX pins to Pi Zero's Rx and Tx GPIO pins, respectively.
+		More details:
+			- https://pinout.xyz/ and 
+			- https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/pinouts	
+
+Source code details:
+
+	-bridge.py 		--The pi-side bridge software
+	-bridge_error.py	--The pi-side bridge software
+	-terminal.py		--A pi-side terminal for testing. Use it to test eveything is set up correctly
+	-bridge.ino		--The feather-side bridge firmware
+
+Installation:
+
+	- Flash bridge.ino into the Feather-M0
+	- Put bridge.py and bridge_error.py somewhere and writ your won scritps.
+	- For testing use terminal.py	(Examples and documentation there)
+
+Pi Zero Dependencies (install):
+
+	- Python 3					(I installed with apt-get)
+	- wiringpi library (for accessing the UART)	(I installed with pip)
+
+
+The PI as a microntroller:
+
+	The PI is not a MCU. It won't run your code on startup. So we need two things:
+		
+	a) Automatic login (so you dont have to type the password). This worked for me:
+
+			Firt I did as says in here:
+
+					https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=127042
+
+			but it wouldnt work until added this line to ~./profile:
+
+					[ "$(tty)" = "/dev/tty1" ] && exec startx
+			followed by 
+				
+					$ sudo systemctl set-default multi-user.target		
+						
+			the last two lines are from here:
+			
+					http://forums.debian.net/viewtopic.php?f=16&t=123694
+
+			Also, I don't know if it matters, but I initially set the pi to autologin with
+			raspi-config (sudo raspi-config) (It was the first thing i tried, and it did not 
+			work, but I mention it as it could've have an effect at the end ...IDK maybe a
+			combination of it all worked made it work.)
+
+	b) Automatic execution of your code. This worked for me:
+
+			http://www.opendisplaycase.com/tutorials-learn/raspberry-pi-startup-scripts.html
+
+			NOTE: I do not know what kodi is, but DO NOT ADD IT TO your sh file. It made 
+			      weird stuff happen when I runned it, just keep the sh as:
+
+					python3 /path-to-your-file/file.sh						 
+	
+Troubleshooting:
+
+ 	- To install the wiringpi dependencies and perhaps python3 (if using Jessie Lite), you'll need access to the internet. There are 
+	  various forms. SSHing the PI, for instance. I used a WiFI dongle (RTl819) here:
+
+			https://www.adafruit.com/product/814      
+
+          and set it up following these instructions:
+
+			http://weworkweplay.com/play/automatically-connect-a-raspberry-pi-to-a-wifi-network/
+			https://www.raspberrypi.org/forums/viewtopic.php?t=44044
+		
+	  I set the configured for dynamic IP.
+	
+
+	- If you have problems setting up the Ardunio environment to compile bridge.ino. Use the Arduino from:
+
+			https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/setup
+
+	  it worked for me.
+
+	- The Pi's UART needs to be set up. Follow the isntructions here:
+
+			http://spellfoundry.com/2016/05/29/configuring-gpio-serial-port-raspbian-jessie-including-pi-3/#comment-69550
+
+          Check the serial aliases, disable the console, and make sure the UART is enabled.
+
+
+To fix (that I know):
+	- Check for size of messages in "send" commmand
+	- Add examples
+	- Improve this documentation

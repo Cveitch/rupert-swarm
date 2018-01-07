@@ -1,0 +1,22 @@
+Conan Veitch, 2017
+
+
+ROADMAP:
+All upper(formation control, filtering, etc) and lower(hardware drivers) functions of the Ruperts are written in Python, intended to be ran on the Raspberry Pi Zero on the version of Raspbian supplied.  Feather Code must be loaded into the Feather M0.  Further information can be found in the Documentation.txt file.
+
+
+
+Rupert squads are Ruperts that have been elected to be mobile anchors.
+Squads coordinate movements and directions amongst each other.
+In this way they act as reference points for all other Ruperts in range.
+
+
+TASKLIST:
+
+Make decision on inclusion of SAM4S in the project.
+Find 60ghz wireless module.
+Write drivers for XBEE/60ghz.
+Find more literature on 60ghz imaging.
+Implement Imaging.
+
+
